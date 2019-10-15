@@ -10,7 +10,7 @@ int main() {
         t += "#";
     }
     for (i = 0; i < t.length(); i++) {
-        if (id + mx > i) {
+        if (mx > i) {
             a[i] = a[id - (i - id)];
         }
         else {

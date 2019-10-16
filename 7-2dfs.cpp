@@ -34,9 +34,9 @@ void dfs(int x, int y, int num) {
 }
 int main() {
 	extern int N, M, ** a, ** vis, max;
-	int i,j,k;
+	int i,j;
 	cin >> N >> M;
-	a = new int*[N], vis = new int* [N];
+	a = new int*[N], vis = new int*[N];
 	for (i = 0; i < N; i++) {
 		a[i] = new int[M];
 		vis[i] = new int[M];

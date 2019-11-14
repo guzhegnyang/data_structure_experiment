@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 template <class t>
-struct node {
+class node {
     t v;
     node<t>* l;
     node<t>* r;
@@ -10,7 +10,15 @@ struct node {
     node(t v, node* l = nullptr, node* r = nullptr, bool ltag = 0, bool rtag = 0): \
     v(v), l(l), r(r), ltag(ltag), rtag(rtag) {};
     void insert(t n);
-    void preorder(node<t>* (&last));
+    void preorder(node* (&last));
+};
+template <class t>
+struct binary_tree {
+    node<t>* T;
+    node<t>* last;
+    binary_tree(t v): T(v) {};
+    void insert(t n) {T->insert(n);}
+    void preorder() {T->preorder(last);}
 };
 template <class t>
 void node<t>::insert(t n) {
@@ -36,7 +44,7 @@ void node<t>::insert(t n) {
 template <class t>
 node<t>* last = nullptr;
 template <class t>
-void node<t>::preorder(node<t>* (&last) = last) {
+void node<t>::preorder(node* (&last)) {
     if (last && last->rtag && !last->r) {
         last->r = this;
     }

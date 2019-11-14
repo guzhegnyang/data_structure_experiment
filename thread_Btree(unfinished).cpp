@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 template <class t>
-class node {
+struct node {
     t v;
     node<t>* l;
     node<t>* r;
@@ -16,7 +16,7 @@ template <class t>
 struct binary_tree {
     node<t>* T;
     node<t>* last;
-    binary_tree(t v): T(v) {};
+    binary_tree(t v): T(new node<t>(v)) {};
     void insert(t n) {T->insert(n);}
     void preorder() {T->preorder(last);}
 };
@@ -25,7 +25,7 @@ void node<t>::insert(t n) {
     if (n < v) {
         if (!l || ltag) {
             ltag = 0;
-            l = new node(n);
+            l = new node<t>(n);
         }
         else {
             l->insert(n);
@@ -34,7 +34,7 @@ void node<t>::insert(t n) {
     else if (n > v) {
         if (!r || rtag) {
             rtag = 0;
-            r = new node(r);
+            r = new node<t>(n);
         }
         else {
             r->insert(n);
@@ -56,7 +56,7 @@ void node<t>::preorder(node* (&last)) {
             l = last;
         }
         else {
-            l->preorder();
+            l->preorder(last);
         }
     }
     if (!rtag) {
@@ -64,10 +64,27 @@ void node<t>::preorder(node* (&last)) {
             rtag = 1;
         }
         else {
-            r->preorder();
+            r->preorder(last);
         }
     }
 }
 int main() {
-    
+    int n, i;
+    char v;
+    cin >> n;
+    cin >> v;
+    binary_tree<char> T(v);
+    for (i = 2; i <= n; i++) {
+        cin >> v;
+        T.insert(v);
+    }
+    T.preorder();
+    cout << endl;
+    node<char>* p = T.T;
+    //cout << p->v << ' ';
+    //p = p->l;
+    while (p) {
+        cout << p->ltag << ' ';
+        p = p->l;
+    }
 }

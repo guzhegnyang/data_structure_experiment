@@ -45,27 +45,26 @@ template <class t>
 node<t>* last = nullptr;
 template <class t>
 void node<t>::preorder(node* (&last)) {
+    node<t>* temp = last;
     if (last && last->rtag && !last->r) {
-        last->r = this;
+        temp->r = this;
     }
     cout << v << ' ';
     last = this;
+    if (!rtag && !r) {
+        rtag = 1;
+    }
     if (!ltag) {
         if (!l) {
             ltag = 1;
-            l = last;
-        }
+            l = temp;
+        }  
         else {
             l->preorder(last);
         }
     }
-    if (!rtag) {
-        if (!r) {
-            rtag = 1;
-        }
-        else {
-            r->preorder(last);
-        }
+    if (!rtag && r) {
+        r->preorder(last);
     }
 }
 int main() {
@@ -81,10 +80,10 @@ int main() {
     T.preorder();
     cout << endl;
     node<char>* p = T.T;
-    //cout << p->v << ' ';
-    //p = p->l;
+    cout << p->v << ' ';
+    p = p->l;
     while (p) {
-        cout << p->ltag << ' ';
-        p = p->l;
+        cout << p->v << ' ';
+        p = p->r;
     }
 }

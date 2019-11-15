@@ -10,7 +10,7 @@ struct node {
     node(t v, node* l = nullptr, node* r = nullptr, bool ltag = 0, bool rtag = 0): \
     v(v), l(l), r(r), ltag(ltag), rtag(rtag) {};
     void insert(t n);
-    void del(t n);
+    node<t>* del(t n);
     void preorder(node* (&last));
 };
 template <class t>
@@ -19,7 +19,15 @@ struct binary_tree {
     node<t>* last;
     binary_tree(t v): T(new node<t>(v)) {};
     void insert(t n) {T->insert(n);}
-    void del(t n) {T->del();}
+    void del(t n) {
+        if (n == T->v && (!T->l || T->ltag) && (!T->r || T->rtag)) {
+            delete T;
+            T = nullptr;
+        }
+        else {
+            T->del();
+        }
+    }
     void preorder() {T->preorder(last);}
 };
 template <class t>
@@ -44,34 +52,62 @@ void node<t>::insert(t n) {
     }
 }
 template <class t> 
-void node<t>::del(t n) {
-    if (n < v && l && !ltag) {
-        l->del(n);
-    }
-    else if (n > v && r && !rtag) {
-        r->del(n);
-    }
-    else if (n == v) {
-        node* temp;
-        if (!l) {
-            if (!r) {
-                delete this;
-            }
-            else {
-                if (!r->l || r->ltag) {
-                    v = r->l->v;
-                    delete r->l;
-                    r->l = nullptr;
-                    r->ltag = 0;
+void* node<t>::del(t n) {
+    node<t>* temp;
+    if (n < v) {
+        if (n == l->v) {
+            if (l->l && !l->ltag && l->r && !l->rtag) { //被删除节点有左右两个子节点
+                if (!l->r->l || l->r->ltag) {
+                    l->v = l->r->v;
+                    l->r->del(v);
                 }
                 else {
-                    for (temp = r->l; temp->l->l && temp->l->ltag; temp = temp->l);
+                    for (temp = l->r; temp->l->l && !temp->l->ltag; temp = temp->l); //在右子树儿子中找最小元素填充删除节点
                     v = temp->l->v;
-                    delete temp->l;
-                    temp->l = nullptr;
-                    temp->ltag = 0;
+                    temp->del(v); //再删除节点的右子树儿子中删除最小元素
                 }
             }
+            else { //被删除节点有一个或无子节点
+                temp = l;
+                if (!l->l || l->ltag) {//有右孩子或无子节点
+                    l = l->r;
+                }
+                else {//有左孩子或无子节点
+                    l = l->l;
+                }
+                delete temp;
+            }
+        }
+        else {
+            l->del(n);
+        }
+    }
+    else if (n > v) {
+        if (n == r->v) {
+            if (r->l && !r->ltag && r->r && !r->rtag) { //被删除节点有左右两个子节点
+                if (!r->r->l || r->r->ltag) {
+                    r->v = r->r->v;
+                    r->r->del(v);
+                }
+                else {
+                    for (temp = r->r; temp->l->l && !temp->l->ltag; temp = temp->l); //在右子树儿子中找最小元素填充删除节点
+                    v = temp->l->v;
+                    temp->del(v); //再删除节点的右子树儿子中删除最小元素
+                }
+            }
+            else { //被删除节点有一个或无子节点
+                temp = r;
+                if (!r->l || r->ltag) {//有右孩子或无子节点
+                    r = r->r;
+                }
+                else {//有左孩子或无子节点
+                    r = r->l;
+                }
+                delete temp;
+            }
+        }
+        else {
+            r->del(n);
         }
     }
 }
@@ -120,5 +156,5 @@ int main() {
         cout << p->v << ' ';
         p = p->r;
     }
+    T.del(' ');
 }
-

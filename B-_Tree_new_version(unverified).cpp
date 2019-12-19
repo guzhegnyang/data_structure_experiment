@@ -14,7 +14,7 @@ void insert(int n) {
     for (; ptr->p; ptr = ptr->p) {
         stack.push_back(ptr);
         for (; ptr->next && ptr->next->k < n; ptr = ptr->next);
-        if (ptr->next->k == n) {
+        if (ptr->next && ptr->next->k == n) {
             delete new_node;
             return;
         }
@@ -22,7 +22,7 @@ void insert(int n) {
     }
     stack.push_back(ptr);
     for (ptr = stack.back(); ptr->next && ptr->next->k < n; ptr = ptr->next);
-    if (ptr->next->k == n) {
+    if (ptr->next && ptr->next->k == n) {
         delete new_node;
         return;
     }
@@ -32,14 +32,14 @@ void insert(int n) {
             new_node->next = stack1.back()->next;
             stack1.back()->next = new_node;
             new_node = nullptr;
-            stack.top()->k++;
-            if (stack.top()->k == m) {
-                for(ptr = stack.back(); stack.back()->k > m / 2; ptr = ptr->next, stack.top()->k--);
-                stack.top()->k = m - stack.top()->k;
+            stack.back()->k++;
+            if (stack.back()->k == m) {
+                for(ptr = stack.back(); stack.back()->k > m / 2; ptr = ptr->next, stack.back()->k--);
+                stack.back()->k = m - stack.back()->k;
                 new_node = ptr;
                 ptr = new_node->next;
                 new_node->next = nullptr;
-                new_node->p = new node(m - stack.top()->k, ptr);
+                new_node->p = new node(m - stack.back()->k, ptr);
             }
         }
         stack.pop_back();

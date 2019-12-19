@@ -13,11 +13,19 @@ void insert(int n) {
 	vector<node*> stack, stack1;
 	node* ptr = h, * new_node = new node(n);
 	for (; ptr->p; ptr = ptr->p) {
+		if (ptr->k < m - 1) {
+			stack.clear();
+			stack1.clear();
+		}
 		stack.push_back(ptr);
 		for (; ptr->next && ptr->next->k < n; ptr = ptr->next);
 		if (ptr->next && ptr->next->k == n) {
 			delete new_node;
 			return;
+		}
+		if (ptr->k < m - 1) {
+			stack.clear();
+			stack1.clear();
 		}
 		stack1.push_back(ptr);
 	}

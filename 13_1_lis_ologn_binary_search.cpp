@@ -1,0 +1,22 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+#define MAX_NUM 101
+int n, a[MAX_NUM], l[MAX_NUM], len = 0;
+int main() {
+    cin >> n;
+    int i, j;
+    for (i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    l[len++] = a[0];
+    for (i = 1; i < n; i++) {
+        if (l[len - 1] < a[i]) {
+            l[len++] = a[i];
+        }
+        else {
+            *lower_bound(l, l + len, a[i]) = a[i];  //递增序列二分查找Ologn，对应upper_bound递减序列二分查找
+        }
+    }
+    cout << len;
+}

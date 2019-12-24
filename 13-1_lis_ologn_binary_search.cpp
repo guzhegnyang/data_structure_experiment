@@ -18,8 +18,8 @@ int main() {
             l[len++] = a[i];
         }
         else {
-            *lower_bound(l, l + len, a[i]) = a[i];  //递增序列二分查找Ologn，对应upper_bound递减序列二分查找
-        }
+            *lower_bound(l, l + len, a[i]) = a[i];  //递增序列二分查找Ologn找[a[i], a[i]+d)不同于upperbound(a[i], a[i]+d]
+        }                                           //递减序列要重载
     }
     cout << len;
 }

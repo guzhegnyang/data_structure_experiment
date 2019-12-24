@@ -1,3 +1,6 @@
+/*
+最终l数组不是对应序列但是len一定是其长度，详见https://www.cnblogs.com/812-xiao-wen/p/10992613.html
+*/
 #include<iostream>
 #include<algorithm>
 using namespace std;

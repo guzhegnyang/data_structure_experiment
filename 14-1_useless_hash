@@ -15,7 +15,6 @@ int main() {
             Hash[i] = Hash[i] * 26 + s[i + j] - 'A';
         }
     }
-    cout << endl;
     sort(Hash, Hash + s.length() - 9);
     stack<char> st;
     for (i = 0; i < s.length() - 10; i++) {

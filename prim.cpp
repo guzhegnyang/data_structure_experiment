@@ -3,7 +3,7 @@
 #include<algorithm>
 using namespace std;
 #define MAXN 100
-int n, E[MAXN][MAXN], ans, path[MAXN][MAXN];
+int n, E[MAXN][MAXN], ans = 0, path[MAXN][MAXN];
 pair<int, int> dp[MAXN];
 void prim() {
 	int i, j, vis;

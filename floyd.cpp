@@ -11,8 +11,8 @@ void floyd() {
     int i, j, k;
     vector<int>::iterator iter;
     for (i = 0; i < n; i++) {
-        for (j = 0; j < i; j++) {
-            for (k = i + 1; k < n; k++) {
+        for (j = 0; j < n; j++) {
+            for (k = 0; k < n; k++) {
                 if (dp[j][k].distance > dp[j][i].distance + dp[i][k].distance) {
                     dp[j][k].distance = dp[j][i].distance + dp[i][k].distance;
                     dp[j][k].path = dp[j][i].path;
@@ -44,8 +44,8 @@ int main() {
     vector<int>::iterator iter;
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
-            for (iter = dp[i][j].path.begin(); iter != dp[i][j].path.begin(); iter++) {
-                cout << *iter << ' ';
+            for (iter = dp[i][j].path.begin(); iter != dp[i][j].path.end(); iter++) {
+                cout << char(*iter + 'a') << ' ';
             }
             cout << endl;
         }

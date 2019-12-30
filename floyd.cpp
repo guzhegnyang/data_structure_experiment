@@ -41,4 +41,13 @@ int main() {
         }
         cout << endl;
     }
+    vector<int>::iterator iter;
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            for (iter = dp[i][j].path.begin(); iter != dp[i][j].path.begin(); iter++) {
+                cout << *iter << ' ';
+            }
+            cout << endl;
+        }
+    }
 }

@@ -3,14 +3,15 @@
 #include<algorithm>
 using namespace std;
 #define MAXN 100
-int n;
+int n, ve[MAXN], vl[MAXN];
 struct e {
     int n;
     int w;
 };
-vector<e> v[MAXN], u[MAXN], path_st;
+vector<int> path;
+vector<e> v[MAXN], u[MAXN];
 void get_critical_path() {
-    int i, j, indegree[MAXN], ve[MAXN], vl[MAXN], total = 0;
+    int i, j, indegree[MAXN], total = 0;
     vector<int> st;
     for (i = 0; i < n; i++) {
         indegree[i] = u[i].size();
@@ -30,13 +31,11 @@ void get_critical_path() {
                 st.push_back(v[j][i].n);
             }
         }
-        st.pop_back();
     }
     for (i = 0; i < n; i++) {
         indegree[i] = v[i].size();
         if (!indegree[i]) {
             st.push_back(i);
-            path_st.push_back({i, 0});
         }
         vl[i] = total;
     }
@@ -45,12 +44,28 @@ void get_critical_path() {
         st.pop_back();
         for (i = 0; i < u[j].size(); i++) {
             vl[u[j][i].n] = min(vl[u[j][i].n], vl[j] - u[j][i].w);
-            if (ve[u[j][i].n] == vl[u[j][i].n]) {
-                path_st.push_back(u[j][i]);
-            }
             indegree[u[j][i].n]--;
             if (!indegree[u[j][i].n]) {
                 st.push_back(u[j][i].n);
+            }
+        }
+    }
+    for (i = 0; i < n; i++) {
+        indegree[i] = u[i].size();
+        if (!indegree[i]) {
+            st.push_back(i);
+        }
+    }
+    while (!st.empty()) {
+        j = st.back();
+        if (ve[j] == vl[j]) {
+            path.push_back(j);
+        }
+        st.pop_back();
+        for (i = 0; i < v[j].size(); i++) {
+            indegree[v[j][i].n]--;
+            if (!indegree[v[j][i].n]) {
+                st.push_back(v[j][i].n);
             }
         }
     }
@@ -63,11 +78,16 @@ int main() {
         u[b].push_back({a, w});
     }
     get_critical_path();
-    for (i = 0; i < path_st.size(); i++) {
-        cout << path_st[i].n << ' ';
+    cout << "ve" << endl;
+    for (i = 0; i < n; i++) {
+        cout << ve[i] << ' ';
     }
-    cout << endl;
-    for (i = 0; i < path_st.size(); i++) {
-        cout << path_st[i].w << ' ';
+    cout << endl << "vl" << endl;
+    for (i = 0; i < n; i++) {
+        cout << vl[i] << ' ';
+    }
+    cout << endl << "path" << endl;
+    for (i = 0; i < path.size(); i++) {
+        cout << path[i] << ' ';
     }
 }

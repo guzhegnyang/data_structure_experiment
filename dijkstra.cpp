@@ -6,12 +6,13 @@ int n, E[MAXN][MAXN];
 struct t {
     int distance;
     vector<int> path;
-} dp[MAXN];
+} dp[MAXN], ans[MAXN];
 void dijkstra() {
     int i, j, k;
-    for (i = 0; i < n; i++) {
-        for (k = 1, j = 2; j < n; j++) {
-            if (dp[k].distance > dp[j].distance) {
+    for (i = 1; i <= n - 1; i++) {
+        for (k = 0; !dp[k].distance; k++);
+        for (j = k + 1; j < n; j++) {
+            if (dp[j].distance && dp[k].distance > dp[j].distance) {
                 k = j;
             }
         }
@@ -22,6 +23,8 @@ void dijkstra() {
                 dp[j].path.push_back(j);
             }
         }
+        ans[k] = dp[k];
+        dp[k].distance = 0;
     }
 }
 int main() {
@@ -35,7 +38,7 @@ int main() {
         dp[i].path = {0, i};
     }
     dijkstra();
-    for (i = 1; i < n; i++) {
-        cout << dp[i].distance << ' ';
+    for (i = 0; i < n; i++) {
+        cout << ans[i].distance << ' ';
     }
 }

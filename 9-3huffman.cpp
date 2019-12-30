@@ -35,8 +35,8 @@ int main() {
 	for (i = 1; i <= k; i++) {
 		cin >> c;
 		cin >> f;
-		node* n = new node(c, f);
-		q.push(*n);
+		node n(c, f);
+		q.push(n);
 	}
 	while (q.size() != 1) {
 		node* a = new node(q.top().c, q.top().f, q.top().l, q.top().r);
@@ -47,5 +47,6 @@ int main() {
 		q.push(c);
 	}
 	node* n = new node(q.top().c, q.top().f, q.top().l, q.top().r);
+    q.pop();
 	visit(n);
 }

@@ -1,45 +1,24 @@
-#include <iostream>
-#include <string>
+#include<stdio.h>
+#include<algorithm>
+#include<vector>
 using namespace std;
 int main() {
-	string s;
-	cin >> s;
-    char* stack = new char[s.length()];
-    int* istack = new int[s.length()];
-	int i = 0, top = -1, itop = -1;
-	for (; i < s.length(); i++) {
-		if (s[i] == '(') {
-            top++;
-			stack[top] = s[i];
-            itop++;
-            istack[itop] = i;
-		}
-		else {
-			if (stack[top] == '(') {
-				top--;
-                itop--;
-			}
-            else {
-                top++;
-			    stack[top] = s[i];
-                itop++;
-                istack[itop] = i;
-            }
-		}
-	}
-    int max = 0;
-    int lasti = -1;
-    if (istack[0] == 0) {
-        lasti = 0;
-    }
-    for(i = 0; i <= itop; i++) {
-        if (istack[i] - lasti - 1 > max) {
-            max = istack[i] - lasti - 1;
+    char c;
+    int i, ans;
+    vector<char> s1;
+    vector<int> s2({-1});
+    for (i = 0; (c = getchar()) != EOF; i++) {
+        if (c == ')' && !s1.empty() && s1.back() == '(') {
+            s1.pop_back();
+            s2.pop_back();
         }
-        lasti = istack[i];
+        else {
+            s1.push_back(c);
+            s2.push_back(i);
+        }
     }
-    if (s.length() - lasti - 1 > max) {
-        max = s.length() - lasti - 1;
+    for (ans = i - s2.back() - 1, i = 1; i < s2.size(); i++) {
+        ans = max(ans, s2[i] - s2[i - 1] - 1);
     }
-	cout << max;
+    printf("%d", ans);
 }

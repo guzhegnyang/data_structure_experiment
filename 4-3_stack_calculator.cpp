@@ -123,6 +123,7 @@ int main() {
 	cout << calculate(s);
 }
 /*
+这个题处理字符串显然简单写一点，但是处理字符貌似更厉害一点
 #include<iostream>
 #include<stdio.h>
 #include<stack>

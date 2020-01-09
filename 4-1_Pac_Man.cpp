@@ -1,36 +1,25 @@
-#include <iostream>
+#include<stdio.h>
+#include<vector>
+#include<stack>
 using namespace std;
-typedef struct role{
-    int grade;
-    int move;
-}Role;
-int main() {
-    int N, i, grade, move, top = -1;
-    cin >> N;
-    Role* stack = new Role[N];
-    for(i = 0; i < N; i++) {
-        cin >> grade >> move;
-        if(move == 1) {
-            top++;
-            stack[top].grade = grade;
-            stack[top].move = move;
-        }
-        else {
-            while(true) {
-                if(top == -1 || stack[top].move == 0 || (stack[top].move == 1 && stack[top].grade == grade)) {
-                    top++;
-                    stack[top].grade = grade;
-                    stack[top].move = move;
-                    break;
-                }
-                if(stack[top].grade > grade) {
-                    break;
-                }
-                else {
-                    top--;
-                }
+int n;
+int main () {
+    scanf("%d", &n);
+    stack<pair<int, int>> s;
+    int a, b;
+    while(scanf("%d %d", &a, &b) != EOF) {
+        while (1) {
+            if (b || s.empty() || !s.top().second) {
+                s.push({a, b});
+                break;
+            }
+            else if (s.top().first < a) {
+                s.pop();
+            }
+            else {
+                break;
             }
         }
     }
-    cout << top + 1;
+    printf("%d", s.size());
 }

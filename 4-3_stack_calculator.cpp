@@ -122,3 +122,128 @@ int main() {
 	cin >> s;
 	cout << calculate(s);
 }
+/*
+#include<iostream>
+#include<stdio.h>
+#include<stack>
+using namespace std;
+int main() {
+    char c;
+    int n = 0;
+    bool isnum = 0, is1st = 1;
+    stack<int> sn;
+    stack<char> so;
+    while ((c = getchar()) != EOF) {
+        if (is1st) {
+            if (c == '-') {
+                sn.push(0);
+            }
+            is1st = 0;
+        }
+        if ('0' <= c && c <= '9') {
+            n = n * 10 + c - '0';
+            isnum = 1;
+        }
+        else {
+            if (isnum) {
+                sn.push(n);
+                isnum = 0;
+            }
+            if (c == '+' || c == '-') {
+                while (!so.empty() && so.top() != '(') {
+                    n = sn.top();
+                    sn.pop();
+                    if (so.top() == '*') {
+                        n *= sn.top();
+                    }
+                    else if (so.top() == '/') {
+                        n = sn.top() / n;
+                    }
+                    else if (so.top() == '+') {
+                        n += sn.top();
+                    }
+                    else {
+                        n = sn.top() - n;
+                    }
+                    sn.pop();
+                    sn.push(n);
+                    so.pop();
+                }
+                so.push(c);
+            }
+            else if (c == '*' || c == '/') {
+                if (!so.empty()) {
+                    if (so.top() == '*') {
+                        so.pop();
+                        n = sn.top();
+                        sn.pop();
+                        n *= sn.top();
+                        sn.pop();
+                        sn.push(n);
+                    }
+                    else if (so.top() == '/') {
+                        so.pop();
+                        n = sn.top();
+                        sn.pop();
+                        n = sn.top() / n;
+                        sn.pop();
+                        sn.push(n);
+                    }
+                }
+                so.push(c);
+            }
+            else if (c == ')') {
+                while (so.top() != '(') {
+                    n = sn.top();
+                    sn.pop();
+                    if (so.top() == '*') {
+                        n *= sn.top();
+                    }
+                    else if (so.top() == '/') {
+                        n = sn.top() / n;
+                    }
+                    else if (so.top() == '+') {
+                        n += sn.top();
+                    }
+                    else {
+                        n = sn.top() - n;
+                    }
+                    sn.pop();
+                    sn.push(n);
+                    so.pop();
+                }
+                so.pop();
+            }
+            else {
+                is1st = 1;
+                so.push(c);
+            }
+            n = 0;
+        }
+    }
+    if (isnum) {
+        sn.push(n);
+        isnum = 0;
+    }
+    while (!so.empty()) {
+        n = sn.top();
+        sn.pop();
+        if (so.top() == '*') {
+            n *= sn.top();
+        }
+        else if (so.top() == '/') {
+            n = sn.top() / n;
+        }
+        else if (so.top() == '+') {
+            n += sn.top();
+        }
+        else {
+            n = sn.top() - n;
+        }
+        sn.pop();
+        sn.push(n);
+        so.pop();
+    }
+    printf("%d", sn.top());
+}
+*/

@@ -22,36 +22,35 @@ int main() {
 	}
 	priority_queue<process> pq;
 	int clock;
-	process* executing = nullptr;
+	process executing({0, 0, 0, 0});
 	while (1) {
-		if (executing == nullptr) {
+		if (!executing.num) {
 			clock = q.front().arrive;
 			while (!q.empty() && q.front().arrive <= clock) {
 				pq.push(q.front());
 				q.pop();
 			}
-			executing = new process(pq.top());
+			executing = pq.top();
 			pq.pop();
 		}
 		else {
 			if (q.empty()) {
 				if (pq.empty()) {
-					cout << executing->num << ' ' << executing->arrive + executing->execute << endl;
+                    clock = executing.arrive + executing.execute;
+					cout << executing.num << ' ' << clock << endl;
 					break;
 				}
 				else {
-					clock = executing->arrive + executing->execute;
-					cout << executing->num << ' ' << executing->arrive + executing->execute << endl;
-					delete executing;
-					executing = new process(pq.top());
-					executing->arrive = clock;
+					clock = executing.arrive + executing.execute;
+					cout << executing.num << ' ' << clock << endl;
+					executing = pq.top();
+					executing.arrive = clock;
 					pq.pop();
 				}
 			}
-			else if (executing->arrive + executing->execute <= q.front().arrive) {
-				clock = executing->arrive + executing->execute;
-				cout << executing->num << ' ' << executing->arrive + executing->execute << endl;
-				delete executing;
+			else if (executing.arrive + executing.execute <= q.front().arrive) {
+				clock = executing.arrive + executing.execute;
+				cout << executing.num << ' ' << clock << endl;
 				if (pq.empty()) {
 					clock = q.front().arrive;
 					while (!q.empty() && q.front().arrive <= clock) {
@@ -59,8 +58,8 @@ int main() {
 						q.pop();
 					}
 				}
-				executing = new process(pq.top());
-				executing->arrive = clock;
+				executing = pq.top();
+				executing.arrive = clock;
 				pq.pop();
 			}
 			else {
@@ -69,11 +68,11 @@ int main() {
 					pq.push(q.front());
 					q.pop();
 				}
-				if (executing->priority < pq.top().priority) {
-					executing->execute -= clock - executing->arrive;
-					pq.push(*executing);
-					executing = new process(pq.top());
-					executing->arrive = clock;
+				if (executing.priority < pq.top().priority) {
+					executing.execute -= clock - executing.arrive;
+					pq.push(executing);
+					executing = pq.top();
+					executing.arrive = clock;
 					pq.pop();
 				}
 			}
